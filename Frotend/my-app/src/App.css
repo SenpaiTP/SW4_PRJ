@@ -1,0 +1,195 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*LOGIN*/
+
+/* General styling for the main container */
+.mainContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f2f5;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Login box styling */
+.loginBox {
+  width: 400px;
+  padding: 40px;
+  background-color: white;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* Title styling */
+.loginTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+/* Input container */
+.inputContainer {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+/* Input with icon container */
+.inputWithIcon {
+  position: relative;
+  width: 100%;
+}
+
+.inputWithIcon .icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #888;
+}
+
+.inputBox {
+  width: 87%;
+  padding: 12px 12px 12px 36px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease;
+}
+
+.inputBox:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Error label */
+.errorLabel {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  text-align: left;
+}
+
+/* Remember me & forgot password section */
+.rememberMeContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.rememberMe {
+  font-size: 14px;
+  color: #555;
+}
+
+.forgotPassword {
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.forgotPassword:hover {
+  text-decoration: underline;
+}
+
+/* Login button */
+.inputButton {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.inputButton:hover {
+  background-color: #0056b3;
+}
+
+/* Register link */
+.registerContainer {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #555;
+}
+
+.registerLink {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.registerLink:hover {
+  text-decoration: underline;
+}
+
+/*Forgotpassword and register account*/
+/* Forgot Password and Register box */
+.forgotPasswordBox, .registerBox {
+  width: 400px;
+  padding: 40px;
+  background-color: white;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* Titles */
+.forgotPasswordTitle, .registerTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+/* Success message */
+.successMessage {
+  color: green;
+  font-size: 14px;
+  margin-top: 16px;
+}

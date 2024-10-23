@@ -4,4 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-s
+namespace PRJ4.DB;
+
+public class Projekt4DbContext:DbContext
+{
+    private Projekt4DbContext(DbContextOptions<Projekt4DbContext> options) : base(options)
+    {
+    }
+}

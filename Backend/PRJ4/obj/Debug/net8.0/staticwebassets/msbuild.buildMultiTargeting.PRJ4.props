@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\PRJ4.props" />
+</Project>

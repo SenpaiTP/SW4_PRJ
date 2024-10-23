@@ -4489,23 +4489,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\thea\\.nuget\\packages\\": {},
+    "C:\\Users\\Sylvester\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\thea\\4_semester\\Projekt\\SW4_PRJ\\Backend\\PRJ4\\PRJ4.csproj",
+      "projectUniqueName": "C:\\Users\\Sylvester\\OneDrive - Aarhus universitet\\AU\\4.semester\\Projekt\\SW4_PRJ\\Backend\\PRJ4\\PRJ4.csproj",
       "projectName": "PRJ4",
-      "projectPath": "C:\\Users\\thea\\4_semester\\Projekt\\SW4_PRJ\\Backend\\PRJ4\\PRJ4.csproj",
-      "packagesPath": "C:\\Users\\thea\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\thea\\4_semester\\Projekt\\SW4_PRJ\\Backend\\PRJ4\\obj\\",
+      "projectPath": "C:\\Users\\Sylvester\\OneDrive - Aarhus universitet\\AU\\4.semester\\Projekt\\SW4_PRJ\\Backend\\PRJ4\\PRJ4.csproj",
+      "packagesPath": "C:\\Users\\Sylvester\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Sylvester\\OneDrive - Aarhus universitet\\AU\\4.semester\\Projekt\\SW4_PRJ\\Backend\\PRJ4\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\thea\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Sylvester\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4582,7 +4582,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

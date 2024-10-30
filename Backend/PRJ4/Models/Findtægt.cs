@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PRJ4.Models;
 
 public partial class Findtægt
 {
-    public int Findtægt1 { get; set; }
+    [Key]
+    public int FindtægtId { get; set; }
 
     public int BrugerId { get; set; }
 

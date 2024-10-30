@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PRJ4.Models;
 
 public partial class Vudgifter
 {
+    [Key]
     public int VudgiftId { get; set; }
 
     public int BrugerId { get; set; }

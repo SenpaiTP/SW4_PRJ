@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PRJ4.Models;
 
 public partial class Kategori
 {
+    [Key]
     public int KategoriId { get; set; }
-
-    public float Mad {get; set;}
-
-    public float Leje {get; set;}
-
-    public float Fornoejlser {get; set;}
-    public virtual Bruger Bruger { get; set; } = null!;
+    public string Name {get; set;}
 }

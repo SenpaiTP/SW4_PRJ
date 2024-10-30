@@ -12,8 +12,8 @@ using PRJ4.Data;
 namespace PRJ4.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241023092158_0001-InitialCreate")]
-    partial class _0001InitialCreate
+    [Migration("20241029170855_TestMigration")]
+    partial class TestMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

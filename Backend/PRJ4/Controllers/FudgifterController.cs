@@ -59,7 +59,7 @@ namespace PRJ4.Controllers
             Bruger bruger = await _brugerRepo.GetByIdAsync(fudgifter.BrugerId);
             if (bruger == null)
             {
-                return NotFound($"Bruger with ID {bruger.BrugerId} not found.");
+                return NotFound($"Bruger with ID {fudgifter.BrugerId} not found.");
             }
             var newfudgifter = new Fudgifter
             {

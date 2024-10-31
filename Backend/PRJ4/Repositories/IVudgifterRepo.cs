@@ -8,11 +8,7 @@ using PRJ4.Models;
 
 namespace PRJ4.Repositories
 {
-    public class KategoriRepo : TemplateRepo<Kategori>,IKategori
+    public interface IVudgifter:ITemplateRepo<Vudgifter>
     {
-        public KategoriRepo(ApplicationDbContext context) : base(context)
-        {
-            
-        }
     }
 }

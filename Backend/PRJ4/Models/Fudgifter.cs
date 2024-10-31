@@ -9,17 +9,14 @@ public partial class Fudgifter
 {
     [Key]
     public int FudgiftId { get; set; }
-
     public decimal Pris { get; set; }
-
+    public string? Tekst { get; set; }
+    public DateTime? Dato { get; set; }
+    public int KategoriId {get; set;}
     public int BrugerId {get; set;}
 
-    public string? Tekst { get; set; }
-
+    [ForeignKey(nameof(KategoriId))]
     public Kategori? _Kategori {get; set;}
-
-    public DateTime? Dato { get; set; }
-
     [ForeignKey(nameof(BrugerId))]
     public virtual Bruger Bruger { get; set; } = null!;
 

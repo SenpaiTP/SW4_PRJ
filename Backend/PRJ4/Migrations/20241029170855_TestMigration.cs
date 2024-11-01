@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PRJ4.Migrations
 {
     /// <inheritdoc />
-    public partial class _0001InitialCreate : Migration
+    public partial class TestMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

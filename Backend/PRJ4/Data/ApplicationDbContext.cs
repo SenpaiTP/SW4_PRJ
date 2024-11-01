@@ -25,6 +25,7 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<Vindtægter> Vindtægters { get; set; }
 
     public virtual DbSet<Vudgifter> Vudgifters { get; set; }
+    public virtual DbSet<LoginModel> LoginModels{ get; set; }
 
   
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -111,7 +112,16 @@ public partial class ApplicationDbContext : DbContext
                 .HasForeignKey(d => d.BrugerId)
                 .HasConstraintName("FK__Vudgifter__Bruge__398D8EEE");
         });
-        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<LoginModel>(entity =>
+        {
+            entity.HasKey(e => e.LoginId).HasName("PK__LoginMod__5E5488A5D3A3D3A3");
+            entity.Property(e => e.LoginId).HasColumnName("LoginID");
+            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.Password).HasMaxLength(100);
+            entity.ToTable("LoginModel");
+        });
+                base.OnModelCreating(modelBuilder);
         OnModelCreatingPartial(modelBuilder);
     }
     

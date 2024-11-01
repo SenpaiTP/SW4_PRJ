@@ -9,4 +9,5 @@ using PRJ4.Repositories;
 
 public interface IBrugerService
 {
+
 }

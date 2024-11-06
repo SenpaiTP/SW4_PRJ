@@ -1,12 +1,11 @@
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims; // Ensure this is included
 using System.Threading.Tasks;
-using PRJ4.Data;
-using PRJ4.Models;
-using PRJ4.Repositories;
 
-public interface IBrugerService
+namespace PRJ4.Services
 {
+    public interface IBrugerService
+    {
+        Task<string> GetBrugerNavnAsync(ClaimsPrincipal user);
+        Task<string> GetBrugerEmailAsync(ClaimsPrincipal user);
+    }
 }

@@ -25,22 +25,6 @@ public partial class ApplicationDbContext : DbContext
 
     public DbSet<Vudgifter> Vudgifters { get; set; }
 
-    //public DbSet<Budget> Budget { get; set; }
-
-  
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Bruger>().ToTable("Bruger");
-        //modelBuilder.Entity<Budget>().ToTable("Budget");
-        modelBuilder.Entity<Findtægt>().ToTable("Findtægt");
-        modelBuilder.Entity<Fudgifter>().ToTable("Fudgifter");
-        modelBuilder.Entity<Kategori>().ToTable("Kategori");
-        modelBuilder.Entity<Vindtægter>().ToTable("Vintægter");
-        modelBuilder.Entity<Vudgifter>().ToTable("Vudgifter");
-        modelBuilder.Entity<Kategori>().ToTable("Kategrier");
-
-        base.OnModelCreating(modelBuilder);
-
-        
-    }
+    public virtual DbSet<Vudgifter> Vudgifters { get; set; }
+    public virtual DbSet<LoginModel> LoginModels{ get; set; } 
 }

@@ -8,7 +8,9 @@ using PRJ4.Models;
 
 namespace PRJ4.Repositories
 {
-    public interface IBrugerRepo:ITemplateRepo<Bruger>
+    public interface IBrugerRepo : ITemplateRepo<Bruger>
     {
+        Task<Bruger> AuthenticateAsync(string email, string password);
+
     }
 }

@@ -16,11 +16,5 @@ function Homepage() {
     </Container>
   );
 }
-
-<<<<<<< HEAD
 export default Homepage;
 
-// test
-=======
-export default Homepage;
->>>>>>> header

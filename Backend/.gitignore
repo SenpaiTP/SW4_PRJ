@@ -488,3 +488,19 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+# Ignore all build outputs for the Backend/PRJ4 project
+Backend/PRJ4/obj/
+
+# Specific Debug build files for Backend/PRJ4
+Backend/PRJ4/obj/Debug/net8.0/PRJ4.AssemblyInfo.cs
+Backend/PRJ4/obj/Debug/net8.0/PRJ4.AssemblyInfoInputs.cache
+Backend/PRJ4/obj/Debug/net8.0/PRJ4.GeneratedMSBuildEditorConfig.editorconfig
+Backend/PRJ4/obj/Debug/net8.0/PRJ4.assets.cache
+Backend/PRJ4/obj/Debug/net8.0/PRJ4.csproj.AssemblyReference.cache
+
+# NuGet and project configuration files
+Backend/PRJ4/obj/PRJ4.csproj.nuget.dgspec.json
+Backend/PRJ4/obj/PRJ4.csproj.nuget.g.props
+Backend/PRJ4/obj/project.assets.json
+Backend/PRJ4/obj/project.nuget.cache
+package-loc.json

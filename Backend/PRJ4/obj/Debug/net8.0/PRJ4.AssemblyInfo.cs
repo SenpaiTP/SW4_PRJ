@@ -14,7 +14,15 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PRJ4")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< HEAD
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5bb7f20d322fcaf9fbbfaf0607229a0136282130")]
+=======
+<<<<<<< HEAD
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8e9dd08a5bd6626182562157b95a70e8cbcb5fc2")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c92ed8cd1395c087b06c153df63e3856bd363ee9")]
+>>>>>>> main
+>>>>>>> 7516b51ca36529358909a05f4889453fb6825bf3
 [assembly: System.Reflection.AssemblyProductAttribute("PRJ4")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PRJ4")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

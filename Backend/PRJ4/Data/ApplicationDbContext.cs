@@ -33,32 +33,6 @@ public partial class ApplicationDbContext : DbContext
         modelBuilder.Entity<Vindtægter>().ToTable("Vintægter");
         modelBuilder.Entity<Vudgifter>().ToTable("Vudgifter");
         modelBuilder.Entity<Kategori>().ToTable("Kategorier");
-
-
-        // Dummydata for Bruger
-    modelBuilder.Entity<Bruger>().HasData(
-        new Bruger
-        {
-            BrugerId = 1,
-            Navn = "Test Bruger 1",
-            Email = "test1@example.com",
-            Password = "password123"
-        },
-        new Bruger
-        {
-            BrugerId = 2,
-            Navn = "Test Bruger 2",
-            Email = "test2@example.com",
-            Password = "password456"
-        },
-        new Bruger
-        {
-            BrugerId = 3,
-            Navn = "Test Bruger 3",
-            Email = "test3@example.com",
-            Password = "password789"
-        }
-    );
     
         base.OnModelCreating(modelBuilder);
     }

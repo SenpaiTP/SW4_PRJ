@@ -1,0 +1,65 @@
+/* General styling for the header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+  border: 2px solid black;
+}
+
+/* Logo and name section */
+.logo-name {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 150px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.logo-name h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+/* Menu styling */
+.menu {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.menu a {
+  margin: 0 20px;
+  text-decoration: none;
+  color: #007bff;
+  font-size: 18px;
+}
+
+/* Login and profile icon section */
+.login-section {
+  display: flex;
+  align-items: center;
+}
+
+/* Make the emoji and text clickable by combining them in one link */
+.login-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #007bff;
+}
+
+/* Make the emoji bigger */
+.profile-emoji {
+  font-size: 35px;
+}
+
+/* Style for the login text */
+.login-text {
+  font-size: 18px;
+  color: #007bff;
+}

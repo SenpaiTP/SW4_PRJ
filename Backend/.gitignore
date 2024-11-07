@@ -9,6 +9,9 @@
 #Ignorer secretfil
 secrets.json
 
+#Ignorer dll
+*.dll
+
 # dotenv files
 .env
 

@@ -22,4 +22,6 @@ public partial class Bruger
     public virtual ICollection<Vindtægter> Vindtægters { get; set; } = new List<Vindtægter>();
 
     public virtual ICollection<Vudgifter> Vudgifters { get; set; } = new List<Vudgifter>();
+
+    public virtual ICollection<Budget> Budgets { get; set; } = new List<Budget>();
 }

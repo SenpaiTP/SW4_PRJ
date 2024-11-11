@@ -65,7 +65,7 @@ namespace PRJ4.Controllers
             // Validate that the input data is not null
             if (fudgifter == null)
             {
-                return BadRequest("Fast Udgift cannot be null");
+                return BadRequest("Fudgifter data cannot be null");
             }
 
             // Extract BrugerId from the JWT token (the "sub" claim or NameIdentifier)
@@ -88,38 +88,43 @@ namespace PRJ4.Controllers
                 return NotFound($"Bruger with ID {fudgifter.BrugerId} not found.");
             }
 
-            // Create the new Fudgifter object and set properties
-            var newFudgifter = new Fudgifter
+            // Ensure Kategori exists or create a new one if KategoriId is not provided
+            Kategori kategori;
+            if (fudgifter.KategoriId == 0)
+            {
+                kategori = new Kategori { Name = fudgifter.KategoriName };
+                await _kategoriRepo.AddAsync(kategori);
+                await _kategoriRepo.SaveChangesAsync();
+            }
+            else
+            {
+                kategori = await _kategoriRepo.GetByIdAsync(fudgifter.KategoriId);
+                if (kategori == null)
+                {
+                    return NotFound($"Kategori with ID {fudgifter.KategoriId} not found.");
+                }
+            }
+
+            // Map DTO to Fudgifter model
+            Fudgifter newFudgifter = new Fudgifter
             {
                 Pris = fudgifter.Pris,
                 Tekst = fudgifter.Tekst,
-                Bruger = bruger,
-                Dato = DateTime.Now
+                Dato = fudgifter.Dato,
+                KategoriId = kategori.KategoriId, // Set the actual Kategori ID
+                BrugerId = bruger.BrugerId,       // Use authenticated BrugerId
+                Kategori = kategori,              // Link the Kategori entity
+                Bruger = bruger                   // Link the Bruger entity
             };
-
-            // Check if the KategoriId is valid
-            if (fudgifter.KategoriId <= 0)
-            {
-                return BadRequest("KategoriId cannot be less than or equal to zero.");
-            }
-
-            // Get the Kategori by Id
-            Kategori kategori = await _kategoriRepo.GetByIdAsync(fudgifter.KategoriId);
-            if (kategori == null)
-            {
-                return NotFound($"Kategori with ID {fudgifter.KategoriId} not found.");
-            }
-
-            // Assign the Kategori to the new Fudgifter object
-            newFudgifter.Kategori = kategori;
 
             // Save the new Fudgifter to the database
             await _fudgifterRepo.AddAsync(newFudgifter);
             await _fudgifterRepo.SaveChangesAsync();
 
             // Return the newly created Fudgifter object
-            return Ok(newFudgifter);
+            return CreatedAtAction(nameof(Add), new { id = newFudgifter.FudgiftId }, newFudgifter);
         }
+
 
     }
 }

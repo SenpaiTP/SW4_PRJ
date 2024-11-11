@@ -61,9 +61,10 @@ namespace PRJ4.Controllers
         [HttpPost]
         public async Task<ActionResult<Vudgifter>> Add(newVudgifterDTO vudgifter)
         {
+            // Validate that the input data is not null
             if (vudgifter == null)
             {
-                return BadRequest("Vudgift cannot be null");
+                return BadRequest("Vudgift cannot be null.");
             }
 
             // Extract BrugerId from the JWT token (the "sub" claim or NameIdentifier)
@@ -86,30 +87,34 @@ namespace PRJ4.Controllers
                 return NotFound($"Bruger with ID {vudgifter.BrugerId} not found.");
             }
 
+            Kategori kategori;
+
+            // If KategoriId is zero, create a new category
+            if (vudgifter.KategoriId == 0)
+            {
+                kategori = await _kategoriRepo.NewKategori(vudgifter.KategoriName);
+            }
+            else
+            {
+                // Retrieve existing category
+                kategori = await _kategoriRepo.GetByIdAsync(vudgifter.KategoriId);
+                if (kategori == null)
+                {
+                    return NotFound($"Kategori with ID {vudgifter.KategoriId} not found.");
+                }
+            }
+
             // Create a new Vudgifter object and set properties
             var newVudgifter = new Vudgifter
             {
                 Pris = vudgifter.Pris,
                 Tekst = vudgifter.Tekst,
+                Dato = DateTime.Now,
+                BrugerId = bruger.BrugerId,
+                KategoriId = kategori.KategoriId,
                 Bruger = bruger,
-                Dato = DateTime.Now
+                Kategori = kategori
             };
-
-            // Validate the KategoriId
-            if (vudgifter.KategoriId <= 0)
-            {
-                return BadRequest("KategoriId cannot be less than or equal to zero.");
-            }
-
-            // Get the Kategori by Id
-            Kategori kategori = await _kategoriRepo.GetByIdAsync(vudgifter.KategoriId);
-            if (kategori == null)
-            {
-                return NotFound($"Kategori with ID {vudgifter.KategoriId} not found.");
-            }
-
-            // Assign the Kategori to the new Vudgifter object
-            newVudgifter.Kategori = kategori;
 
             // Save the new Vudgifter to the database
             await _vudgifterRepo.AddAsync(newVudgifter);
@@ -118,5 +123,6 @@ namespace PRJ4.Controllers
             // Return the newly created Vudgifter object
             return Ok(newVudgifter);
         }
+
     }
 }

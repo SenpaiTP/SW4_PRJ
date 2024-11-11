@@ -22,4 +22,13 @@ namespace PRJ4.DTOs
             public string? KategoriName { get; set; }
             public DateTime? Dato { get; set; }
         }
+        public class VudgifterUpdateDTO
+        {
+            public decimal? Pris { get; set; }  // Nullable to allow partial updates
+            public string? Tekst { get; set; }
+            public DateTime? Dato { get; set; }
+            public int? KategoriId { get; set; }
+            public string? KategoriName { get; set; }
+            // Optionally, you can include BrugerId, but it's probably better to use the authenticated user's ID in the backend
+        }
     }

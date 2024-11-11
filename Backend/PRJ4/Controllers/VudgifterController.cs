@@ -41,7 +41,7 @@ namespace PRJ4.Controllers
                 return Unauthorized("User ID claim missing or invalid.");
             }
 
-            // Retrieve the user's Fudgifter records using the BrugerId
+            // Retrieve the user's vudgifter records using the BrugerId
             var vudgifter = await _vudgifterRepo.GetAllByUserId(brugerId);
 
             // Map to response DTO
@@ -61,18 +61,19 @@ namespace PRJ4.Controllers
         [HttpPost]
         public async Task<ActionResult<Vudgifter>> Add(newVudgifterDTO vudgifter)
         {
-            // Validate that the input data is not null
-            if (vudgifter == null)
-            {
-                return BadRequest("Vudgift cannot be null.");
-            }
-
             // Extract BrugerId from the JWT token (the "sub" claim or NameIdentifier)
             var brugerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("sub")?.Value;
             if (string.IsNullOrEmpty(brugerIdClaim) || !int.TryParse(brugerIdClaim, out int authenticatedBrugerId))
             {
                 return Unauthorized("Invalid token or missing BrugerId.");
             }
+            // Validate that the input data is not null
+            if (vudgifter == null)
+            {
+                return BadRequest("Vudgift cannot be null.");
+            }
+
+            
 
             // Ensure that the BrugerId from the token matches the BrugerId in the request body
             if (vudgifter.BrugerId != authenticatedBrugerId)
@@ -123,6 +124,72 @@ namespace PRJ4.Controllers
             // Return the newly created Vudgifter object
             return Ok(newVudgifter);
         }
+        [HttpPut("update/{id}")]
+        public async Task<ActionResult<Vudgifter>> Updatevudgifter(int id, [FromBody] VudgifterUpdateDTO updateDTO)
+        {
+            // Step 1: Get the vudgifter entity from the database
+            var vudgifter = await _vudgifterRepo.GetByIdAsync(id);
+            if (vudgifter == null)
+            {
+                return NotFound("vudgifter not found.");
+            }
+
+            // Step 2: Handle dynamic updates for each property
+            if (updateDTO.Pris.HasValue)
+                vudgifter.Pris = updateDTO.Pris.Value;
+
+            if (updateDTO.Tekst != null)
+                vudgifter.Tekst = updateDTO.Tekst;
+
+            if (updateDTO.Dato.HasValue)
+                vudgifter.Dato = updateDTO.Dato.Value;
+
+            // Step 3: Handle the Kategori update
+            if (updateDTO.KategoriId.HasValue)
+            {
+                var kategori = await _kategoriRepo.GetByIdAsync(updateDTO.KategoriId.Value);
+                if (kategori == null)
+                {
+                    // If the Kategori doesn't exist, create a new one
+                    if(updateDTO.KategoriName == null)
+                    {
+                        return BadRequest("Failed no new kategori name");
+                    }
+                    kategori = await _kategoriRepo.NewKategori(updateDTO.KategoriName); 
+                    if (kategori == null)
+                    {
+                        return BadRequest("Failed to create a new Kategori.");
+                    }
+                }
+
+                vudgifter.KategoriId = kategori.KategoriId;
+                vudgifter.Kategori = kategori;  // Update the related Kategori entity
+            }
+
+            // Step 4: Save the updated entity
+            _vudgifterRepo.Update(vudgifter);
+            await _vudgifterRepo.SaveChangesAsync();
+
+            // Step 5: Return the updated entity
+            return Ok(vudgifter);
+        }
+        [HttpDelete("{ID}/delete")]
+        public async Task<ActionResult<Vudgifter>> DeleteVudgiftById(int id)
+        {
+            if (id <= 0)
+            {
+                return NotFound("Fudigft id cannot be less or equal to 0.");
+            }
+            Vudgifter vudgifter = await _vudgifterRepo.GetByIdAsync(id);
+            if(vudgifter == null)
+            {
+                return BadRequest($"No Variable udgift with id {id}");
+            }
+            _vudgifterRepo.Delete(id);
+            return NoContent();
+        }
+
+        
 
     }
 }

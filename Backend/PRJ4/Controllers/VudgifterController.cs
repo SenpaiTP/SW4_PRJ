@@ -73,19 +73,12 @@ namespace PRJ4.Controllers
                 return BadRequest("Vudgift cannot be null.");
             }
 
-            
-
-            // Ensure that the BrugerId from the token matches the BrugerId in the request body
-            if (vudgifter.BrugerId != authenticatedBrugerId)
-            {
-                return Unauthorized("BrugerId from token doesn't match the provided BrugerId.");
-            }
 
             // Check if the user (Bruger) exists
-            Bruger bruger = await _brugerRepo.GetByIdAsync(vudgifter.BrugerId);
+            Bruger bruger = await _brugerRepo.GetByIdAsync(authenticatedBrugerId);
             if (bruger == null)
             {
-                return NotFound($"Bruger with ID {vudgifter.BrugerId} not found.");
+                return NotFound($"Bruger with ID {authenticatedBrugerId} not found.");
             }
 
             Kategori kategori;
@@ -127,6 +120,13 @@ namespace PRJ4.Controllers
         [HttpPut("update/{id}")]
         public async Task<ActionResult<Vudgifter>> Updatevudgifter(int id, [FromBody] VudgifterUpdateDTO updateDTO)
         {
+            var brugerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("sub")?.Value;
+
+            if (string.IsNullOrEmpty(brugerIdClaim) || !int.TryParse(brugerIdClaim, out int brugerId))
+            {
+                return Unauthorized("User ID claim missing or invalid.");
+            }
+
             // Step 1: Get the vudgifter entity from the database
             var vudgifter = await _vudgifterRepo.GetByIdAsync(id);
             if (vudgifter == null)
@@ -134,15 +134,27 @@ namespace PRJ4.Controllers
                 return NotFound("vudgifter not found.");
             }
 
-            // Step 2: Handle dynamic updates for each property
-            if (updateDTO.Pris.HasValue)
-                vudgifter.Pris = updateDTO.Pris.Value;
+            // Ensure that the Vudgift belongs to the authenticated user
+            if (vudgifter.BrugerId != brugerId)
+            {
+                return Unauthorized("You do not have permission to update this Vudgift.");
+            }
 
-            if (updateDTO.Tekst != null)
+            // Step 2: Handle dynamic updates for each property only if it's provided in the DTO
+            if (updateDTO.Pris.HasValue)
+            {
+                vudgifter.Pris = updateDTO.Pris.Value;
+            }
+
+            if (!string.IsNullOrEmpty(updateDTO.Tekst))
+            {
                 vudgifter.Tekst = updateDTO.Tekst;
+            }
 
             if (updateDTO.Dato.HasValue)
+            {
                 vudgifter.Dato = updateDTO.Dato.Value;
+            }
 
             // Step 3: Handle the Kategori update
             if (updateDTO.KategoriId.HasValue)
@@ -150,20 +162,22 @@ namespace PRJ4.Controllers
                 var kategori = await _kategoriRepo.GetByIdAsync(updateDTO.KategoriId.Value);
                 if (kategori == null)
                 {
-                    // If the Kategori doesn't exist, create a new one
-                    if(updateDTO.KategoriName == null)
-                    {
-                        return BadRequest("Failed no new kategori name");
-                    }
-                    kategori = await _kategoriRepo.NewKategori(updateDTO.KategoriName); 
-                    if (kategori == null)
-                    {
-                        return BadRequest("Failed to create a new Kategori.");
-                    }
+                    return BadRequest("No kategori exist by that id.");
                 }
 
                 vudgifter.KategoriId = kategori.KategoriId;
-                vudgifter.Kategori = kategori;  // Update the related Kategori entity
+                vudgifter.Kategori = kategori;
+            }
+            else if(!string.IsNullOrWhiteSpace(updateDTO.KategoriName))
+            {
+                var kategori = await _kategoriRepo.NewKategori(updateDTO.KategoriName);
+                if (kategori == null)
+                {
+                    return BadRequest("New Kategori wasnt created.");
+                }
+
+                vudgifter.KategoriId = kategori.KategoriId;
+                vudgifter.Kategori = kategori;
             }
 
             // Step 4: Save the updated entity
@@ -173,7 +187,8 @@ namespace PRJ4.Controllers
             // Step 5: Return the updated entity
             return Ok(vudgifter);
         }
-        [HttpDelete("{ID}/delete")]
+
+        [HttpDelete("{id}/delete")]
         public async Task<ActionResult<Vudgifter>> DeleteVudgiftById(int id)
         {
             if (id <= 0)
@@ -186,6 +201,7 @@ namespace PRJ4.Controllers
                 return BadRequest($"No Variable udgift with id {id}");
             }
             _vudgifterRepo.Delete(id);
+            await _vudgifterRepo.SaveChangesAsync();
             return NoContent();
         }
 

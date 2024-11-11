@@ -11,7 +11,6 @@ namespace PRJ4.DTOs
             public int KategoriId {get; set;}
             public string KategoriName {get; set;}
             public DateTime Dato {get;set;}
-            public int BrugerId {get;set;}
             public string? Tekst { get; set; }
         }
         public class FudgifterResponseDTO

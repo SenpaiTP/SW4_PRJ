@@ -22,12 +22,10 @@ namespace PRJ4.Controllers
         private readonly IFudgifter _fudgifterRepo;
         private readonly IBrugerRepo _brugerRepo;
         private readonly IKategori _kategoriRepo;
-        private readonly IBrugerService _brugerservice;
 
-        public FudgifterController(IFudgifter fudgifterRepo, IBrugerService brugerservice, IKategori kategoriRepo, IBrugerRepo brugerRepo)
+        public FudgifterController(IFudgifter fudgifterRepo, IKategori kategoriRepo, IBrugerRepo brugerRepo)
         {
            _fudgifterRepo = fudgifterRepo;
-           _brugerservice = brugerservice;
            _kategoriRepo = kategoriRepo;
             _brugerRepo = brugerRepo;
         }
@@ -88,13 +86,11 @@ namespace PRJ4.Controllers
                 return NotFound($"Bruger with ID {fudgifter.BrugerId} not found.");
             }
 
-            // Ensure Kategori exists or create a new one if KategoriId is not provided
             Kategori kategori;
+            // Ensure Kategori exists or create a new one if KategoriId is not provide
             if (fudgifter.KategoriId == 0)
             {
-                kategori = new Kategori { Name = fudgifter.KategoriName };
-                await _kategoriRepo.AddAsync(kategori);
-                await _kategoriRepo.SaveChangesAsync();
+                kategori = await _kategoriRepo.NewKategori(fudgifter.KategoriName);
             }
             else
             {
@@ -125,6 +121,68 @@ namespace PRJ4.Controllers
             return CreatedAtAction(nameof(Add), new { id = newFudgifter.FudgiftId }, newFudgifter);
         }
 
+        [HttpPut("update/{id}")]
+        public async Task<ActionResult<Fudgifter>> Updatefudgifter(int id, [FromBody] FudgifterUpdateDTO updateDTO)
+        {
+            // Step 1: Get the fudgifter entity from the database
+            var fudgifter = await _fudgifterRepo.GetByIdAsync(id);
+            if (fudgifter == null)
+            {
+                return NotFound("fudgifter not found.");
+            }
+
+            // Step 2: Handle dynamic updates for each property
+            if (updateDTO.Pris.HasValue)
+                fudgifter.Pris = updateDTO.Pris.Value;
+
+            if (updateDTO.Tekst != null)
+                fudgifter.Tekst = updateDTO.Tekst;
+
+            if (updateDTO.Dato.HasValue)
+                fudgifter.Dato = updateDTO.Dato.Value;
+
+            // Step 3: Handle the Kategori update
+            if (updateDTO.KategoriId.HasValue)
+            {
+                var kategori = await _kategoriRepo.GetByIdAsync(updateDTO.KategoriId.Value);
+                if (kategori == null)
+                {
+                    // If the Kategori doesn't exist, create a new one
+                    if(updateDTO.KategoriName == null)
+                    {
+                        return BadRequest("Failed no new kategori name");
+                    }
+                    kategori = await _kategoriRepo.NewKategori(updateDTO.KategoriName); 
+                    if (kategori == null)
+                    {
+                        return BadRequest("Failed to create a new Kategori.");
+                    }
+                }
+
+                fudgifter.KategoriId = kategori.KategoriId;
+                fudgifter.Kategori = kategori;  // Update the related Kategori entity
+            }
+
+            // Step 4: Save the updated entity
+            _fudgifterRepo.Update(fudgifter);
+            await _fudgifterRepo.SaveChangesAsync();
+
+            // Step 5: Return the updated entity
+            return Ok(fudgifter);
+        }
+
+        [HttpDelete("{ID}/delete")]
+        public async Task<ActionResult<Fudgifter>> DeleteFudgiftById(int id)
+        {
+            if (id <= 0)
+            {
+                return NotFound("Fudigft id cannot be less or equal to 0.");
+            }
+            Fudgifter fudgifter = await _fudgifterRepo.GetByIdAsync(id);
+            if(fudgifter == null){ return BadRequest($"Couldnt find fast udgift with id: {id}");}
+            _fudgifterRepo.Delete(id);
+            return NoContent();
+        }
 
     }
 }

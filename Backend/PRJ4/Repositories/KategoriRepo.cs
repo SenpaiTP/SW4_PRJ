@@ -23,7 +23,7 @@ namespace PRJ4.Repositories
             }
 
             // Convert the name to lowercase after validation
-            kategoriName = kategoriName.ToLower();
+            kategoriName = kategoriName.Trim().ToLower();
 
             // Create a new Kategori instance with the validated and transformed name
             Kategori kategori = new Kategori { Name = kategoriName };

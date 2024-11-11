@@ -34,6 +34,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddScoped<IBrugerRepo,BrugerRepo>(); // Add the BrugerRepo to the service container
 builder.Services.AddScoped<ITemplateRepo<Bruger>,BrugerRepo>(); // Add the BrugerRepo to the service container
 builder.Services.AddScoped<IBrugerService,BrugerService>();
+builder.Services.AddScoped<IFudgifter,FudgifterRepo>();
+builder.Services.AddScoped<IVudgifter,VudgifterRepo>();
+builder.Services.AddScoped<IKategori,KategoriRepo>();
 builder.Services.AddScoped<TokenProvider>();
 
 builder.Services.AddControllers();

@@ -25,6 +25,13 @@ namespace PRJ4.Repositories
                 .ToListAsync();
             return Vudgifter;
         }
+        public async Task<IEnumerable<Vudgifter>> GetAllByUserId(int brugerId)
+        {
+            return await _context.Vudgifters
+                .Where(v => v.BrugerId == brugerId)
+                .Include(v => v.Kategori)
+                .ToListAsync();
+        }
 
     }
 }

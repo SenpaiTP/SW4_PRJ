@@ -21,6 +21,7 @@ public partial class ApplicationDbContext : DbContext
     public DbSet<Vindtægter> Vindtægters { get; set; }
     public DbSet<Vudgifter> Vudgifters { get; set; }
     public DbSet<Budget> Budgets { get; set; }
+    public DbSet<LoginModel> LoginModels { get; set; }
 
   
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -33,6 +34,7 @@ public partial class ApplicationDbContext : DbContext
         modelBuilder.Entity<Vindtægter>().ToTable("Vintægter");
         modelBuilder.Entity<Vudgifter>().ToTable("Vudgifter");
         modelBuilder.Entity<Kategori>().ToTable("Kategorier");
+        modelBuilder.Entity<LoginModel>().ToTable("LoginModel");
     
         base.OnModelCreating(modelBuilder);
     }

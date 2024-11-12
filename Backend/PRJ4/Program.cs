@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using PRJ4.Repositories;
 using PRJ4.Data;
-using Microsoft.EntityFrameworkCore;
 using PRJ4.Models;
+using PRJ4.Infrastructure;
+using PRJ4.ServiceCollectionExtension;
+using PRJ4.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,11 +16,29 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 var conn = builder.Configuration["ConnectionStrings:DefaultConnection"];
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGenWithAuth();
+
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(o =>
+    {
+        o.RequireHttpsMetadata = false;
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"] !)),
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 builder.Services.AddScoped<IBrugerRepo,BrugerRepo>(); // Add the BrugerRepo to the service container
 builder.Services.AddScoped<ITemplateRepo<Bruger>,BrugerRepo>(); // Add the BrugerRepo to the service container
-builder.Services.AddScoped<IBudgetRepository,BudgetRepository>(); 
-builder.Services.AddScoped<ITemplateRepo<Budget>,BudgetRepository>(); 
+builder.Services.AddScoped<IBrugerService,BrugerService>();
+builder.Services.AddScoped<IFudgifter,FudgifterRepo>();
+builder.Services.AddScoped<IVudgifter,VudgifterRepo>();
+builder.Services.AddScoped<IKategori,KategoriRepo>();
+builder.Services.AddScoped<TokenProvider>();
+
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     {options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
@@ -31,6 +55,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

@@ -1,6 +1,7 @@
 using PRJ4.Repositories;
 using PRJ4.Models;
 using PRJ4.DTOs;
+using PRJ4.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -11,9 +12,11 @@ namespace PRJ4.Controllers;
 public class BudgetController : ControllerBase
 {
         private readonly BudgetRepo _budgetRepository;
+        private readonly BudgetService _budgetService;
 
-        public BudgetController(BudgetRepo budgetRepository)
+        public BudgetController(BudgetRepo budgetRepository, BudgetService budgetService)
         {
+            _budgetService = budgetService;
             _budgetRepository = budgetRepository;
         }
 
@@ -41,6 +44,22 @@ public class BudgetController : ControllerBase
             }
 
             return Ok(budget); 
+        }
+
+        // GET - Hent månedlig opsparing
+        [HttpGet("{id}/monthly-savings")]
+        public async Task<IActionResult> GetMonthlySavings(int id)
+        {
+            var budget = await _budgetRepository.GetByIdAsync(id);
+            if (budget == null)
+            {
+                return NotFound($"Budget with id {id} not found.");
+            }
+
+            // Beregn månedlig opsparing baseret på budgetdetaljer
+            decimal monthlySavings = _budgetService.CalculateMonthlySavings(budget.SavingsGoal, budget.SavingsPeriodInMonths);
+
+            return Ok(new { MonthlySavingsAmount = monthlySavings });
         }
 
 
@@ -119,5 +138,9 @@ public class BudgetController : ControllerBase
   
             return NoContent();
         }
+
+
+
+
             
 }

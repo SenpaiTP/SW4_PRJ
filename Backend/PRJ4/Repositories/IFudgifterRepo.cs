@@ -8,9 +8,8 @@ using PRJ4.Models;
 
 namespace PRJ4.Repositories
 {
-    public interface IBrugerRepo : ITemplateRepo<Bruger>
+    public interface IFudgifter:ITemplateRepo<Fudgifter>
     {
-        Task<Bruger> AuthenticateAsync(string email, string password);
-
+        Task<IEnumerable<Fudgifter>> GetAllByUserId(int brugerId);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRJ4.Data;
 
@@ -11,9 +12,11 @@ using PRJ4.Data;
 namespace PRJ4.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241029170855_TestMigration")]
+    partial class TestMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,31 +116,6 @@ namespace PRJ4.Migrations
                     b.HasIndex("BrugerId");
 
                     b.ToTable("Fudgifter", (string)null);
-                });
-
-            modelBuilder.Entity("PRJ4.Models.LoginModel", b =>
-                {
-                    b.Property<int>("LoginId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("LoginID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoginId"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("LoginId")
-                        .HasName("PK__LoginMod__5E5488A5D3A3D3A3");
-
-                    b.ToTable("LoginModel", (string)null);
                 });
 
             modelBuilder.Entity("PRJ4.Models.Vindtægter", b =>

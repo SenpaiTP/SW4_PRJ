@@ -8,9 +8,8 @@ using PRJ4.Models;
 
 namespace PRJ4.Repositories
 {
-    public interface IBrugerRepo : ITemplateRepo<Bruger>
+    public interface IKategori:ITemplateRepo<Kategori>
     {
-        Task<Bruger> AuthenticateAsync(string email, string password);
-
+        Task<Kategori> NewKategori(string kategoriName);
     }
 }

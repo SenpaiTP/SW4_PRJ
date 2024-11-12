@@ -9,10 +9,10 @@ namespace PRJ4.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class BudgetController : ControllerBase
-    {
-        private readonly BudgetRepository _budgetRepository;
+{
+        private readonly BudgetRepo _budgetRepository;
 
-        public BudgetController(BudgetRepository budgetRepository)
+        public BudgetController(BudgetRepo budgetRepository)
         {
             _budgetRepository = budgetRepository;
         }
@@ -37,7 +37,7 @@ public class BudgetController : ControllerBase
             var budget = await _budgetRepository.GetByIdAsync(id); 
             if (budget == null)
             {
-                return BadRequest($"No budgets with id {id}."); 
+                return BadRequest($"Budget with id {id} not found."); 
             }
 
             return Ok(budget); 
@@ -50,7 +50,7 @@ public class BudgetController : ControllerBase
         {
             if (budgetDTO == null) 
             {
-                return BadRequest("Budget values cannot be null");
+                return BadRequest("Budget values is not valid");
             }
             
             var budget = new Budget
@@ -66,5 +66,58 @@ public class BudgetController : ControllerBase
             return CreatedAtAction(nameof(GetBudget), new { id = createdBudget.Id }, createdBudget);
 
         }
+
+        // UPDATE: api/budget/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBudget(int id, BudgetDTO budgetDTO) //Update budget by id
+        {
+            if (budgetDTO == null)
+            {
+                return BadRequest("Invalid budget data.");
+            }
+
+            var oldBudget = await _budgetRepository.GetByIdAsync(id); 
+            if (oldBudget == null)
+            {
+                return NotFound($"Budget with id {id} not found.");
+            }
+
+           
+            oldBudget.BrugerId = budgetDTO.BrugerId ?? oldBudget.BrugerId; 
+            oldBudget.SavingsGoal = budgetDTO.SavingsGoal;
+            oldBudget.MonthlySavingsAmount = budgetDTO.MonthlySavingsAmount;
+            oldBudget.SavingsPeriodInMonths = budgetDTO.SavingsPeriodInMonths;
+
+           
+            await _budgetRepository.Update(oldBudget); 
+
+
+            return Ok(oldBudget); 
+        }
+
+
+        // DELETE: api/budget/{id}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteBudget(int id) //Delete bugdet by id
+        {
+   
+            var budget = _budgetRepository.GetByIdAsync(id).Result; 
             
-    }
+            if (budget == null)
+            {
+  
+                return NotFound($"Budget with id {id} not found.");
+            }
+
+            var deletedBudget = _budgetRepository.Delete(id).Result; 
+            
+            if (deletedBudget == null)
+            {
+                return BadRequest("Budget deletion failed.");
+            }
+
+  
+            return NoContent();
+        }
+            
+}

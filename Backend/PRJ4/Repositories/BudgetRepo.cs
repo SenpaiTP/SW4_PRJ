@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PRJ4.Repositories;
 
-public class BudgetRepository: TemplateRepo<Budget>, IBudget
+public class BudgetRepo: TemplateRepo<Budget>, IBudgetRepo
 {
     private readonly ApplicationDbContext _context;
-    public BudgetRepository(ApplicationDbContext context) : base(context) 
+    public BudgetRepo(ApplicationDbContext context) : base(context) 
     {
         _context = context;
     }

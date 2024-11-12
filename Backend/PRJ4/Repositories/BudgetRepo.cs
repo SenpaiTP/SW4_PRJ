@@ -13,4 +13,11 @@ public class BudgetRepository: TemplateRepo<Budget>, IBudget
         _context = context;
     }
 
+    public async Task<IEnumerable<Budget>> GetAllAsync()
+    {
+        var budgets = await _context.Budgets 
+            .ToListAsync();
+        return budgets;
+    }
+
 }

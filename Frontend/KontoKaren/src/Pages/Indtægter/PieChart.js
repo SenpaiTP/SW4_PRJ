@@ -21,8 +21,14 @@ const data = {
   };
 
 
-function PieChart(){
-    return <Pie data={data}/>;
-}
+  function PieChart() {
+    return (
+      <div className="container">
+        <div className="chart-container">
+          <Pie data={data} />
+        </div>
+      </div>
+    );
+  }
 
 export default PieChart;
